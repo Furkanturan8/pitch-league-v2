@@ -1,0 +1,779 @@
+openapi: 3.0.0
+info:
+  title: Pitch League API
+  description: Halı saha maçları ve ligler için API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Error:
+      type: object
+    properties:
+        success:
+          type: boolean
+        error:
+        type: string
+
+    Success:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+    type: object
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Kullanıcı girişi
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Başarılı giriş
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Geçersiz kimlik bilgileri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /gameParts:
+    get:
+      tags:
+        - Game Participants
+      summary: Tüm oyun katılımcılarını getir
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /gameParts/{id}:
+    get:
+      tags:
+        - Game Participants
+      summary: Kullanıcı ID'sine göre oyun ilişkilerini getir
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /leagues:
+    get:
+      tags:
+        - Leagues
+      summary: Tüm ligleri getir
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /leagues/{id}:
+    get:
+      tags:
+        - Leagues
+      summary: ID'ye göre lig getir
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /leaguesTeam:
+    get:
+      tags:
+        - League Teams
+      summary: Tüm lig takımlarını puan sıralamasına göre getir
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /leaguesTeam/{id}:
+    get:
+      tags:
+        - League Teams
+      summary: Takım ID'sine göre lig takımı getir
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /leaguesTeam/league/{id}:
+    get:
+      tags:
+        - League Teams
+      summary: Lig ID'sine göre tüm takımları getir
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /matches:
+    get:
+      tags:
+        - Matches
+      summary: Tüm maçları getir
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /matches/{id}:
+    get:
+      tags:
+        - Matches
+      summary: ID'ye göre maç getir
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /teams:
+    get:
+      tags:
+        - Teams
+      summary: Tüm takımları getir
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /teams/{id}:
+    get:
+      tags:
+        - Teams
+      summary: ID'ye göre takım getir
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /teams/{id}/join/{userID}:
+    post:
+      tags:
+        - Teams
+      summary: Kullanıcıyı takıma ekle
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /fields:
+    get:
+      tags:
+        - Fields
+      summary: Tüm sahaları getir
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /fields/{id}:
+    get:
+      tags:
+        - Fields
+      summary: ID'ye göre saha getir
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /games:
+    get:
+      tags:
+        - Games
+      summary: Tüm oyunları getir
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /games/{id}:
+    get:
+      tags:
+        - Games
+      summary: ID'ye göre oyun getir
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/users:
+    post:
+      tags:
+        - Admin Users
+      summary: Yeni kullanıcı oluştur
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+    get:
+      tags:
+        - Admin Users
+      summary: Tüm kullanıcıları getir
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/users/{id}:
+    get:
+      tags:
+        - Admin Users
+      summary: ID'ye göre kullanıcı getir
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+    delete:
+      tags:
+        - Admin Users
+      summary: Kullanıcı sil
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+    put:
+      tags:
+        - Admin Users
+      summary: Kullanıcı güncelle
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/matches:
+    post:
+      tags:
+        - Admin Matches
+      summary: Yeni maç oluştur
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/matches/{id}:
+    delete:
+      tags:
+        - Admin Matches
+      summary: Maç sil
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/leagues:
+    post:
+      tags:
+        - Admin Leagues
+      summary: Yeni lig oluştur
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/leagues/{id}:
+    delete:
+      tags:
+        - Admin Leagues
+      summary: Lig sil
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/leagueTeams:
+    post:
+      tags:
+        - Admin League Teams
+      summary: Takımı lige ekle
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/leagueTeams/{id}:
+    delete:
+      tags:
+        - Admin League Teams
+      summary: Takımı ligden çıkar
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/gameParts/users/{id}:
+    get:
+      tags:
+        - Admin Game Participants
+      summary: Oyuna katılan kullanıcıları getir
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/gameParts:
+    post:
+      tags:
+        - Admin Game Participants
+      summary: Oyuna katılımcı ekle
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/gameParts/{id}:
+    delete:
+      tags:
+        - Admin Game Participants
+      summary: Oyundan katılımcı çıkar
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/teams:
+    post:
+      tags:
+        - Admin Teams
+      summary: Yeni takım oluştur
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/teams/{id}:
+    delete:
+      tags:
+        - Admin Teams
+      summary: Takım sil
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+    put:
+      tags:
+        - Admin Teams
+      summary: Takım güncelle
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/fields:
+    post:
+      tags:
+        - Admin Fields
+      summary: Yeni saha oluştur
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/fields/{id}:
+    delete:
+      tags:
+        - Admin Fields
+      summary: Saha sil
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+    put:
+      tags:
+        - Admin Fields
+      summary: Saha güncelle
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+        in: path
+        required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/games:
+    post:
+      tags:
+        - Admin Games
+      summary: Yeni oyun oluştur
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+
+  /admin/games/{id}:
+    delete:
+      tags:
+        - Admin Games
+      summary: Oyun sil
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+    put:
+      tags:
+        - Admin Games
+      summary: Oyun güncelle
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarılı
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
