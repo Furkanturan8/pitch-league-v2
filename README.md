@@ -7,6 +7,10 @@ Users can see and participate in matches nearby.<br>
 After the matches are played, the match results are entered, and the league ranking information is saved in the database.<br>
 If you find enough people, you can also create a team in your neighborhood and enter the lower leagues.
 
+You can also watch the video of the mobile application made using the backend codes of the project from the repo below:
+<br>
+Mobile App Repo: [pitch-league-mobile](https://github.com/Furkanturan8/pitch-league-app)
+
 ## API Endpoints
 
 ### Authentication
